@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        /* padding: 50px; */
+        background-color: #4caf50;
+        flex-direction: column;
+      
+        }
+        body::before{
+            top: 0%;
+            content: "validation";
+            font-size: 50px;
+            
+        }
+
+        form{
+                border: 2px solid grey;
+                padding: 20px;
+        }
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="password"],
+      input[type="number"],
+      input[type="date"],
+      input[type="color"] {
+        width: 300px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;       border: 2px solid rgb(214, 62, 62);
+      }
+
+      .error-message {
+        color: red;
+        font-size: 14px;
+      }
+
+      input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #95a096;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <div class="error-message" id="name-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <div class="error-message" id="email-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" required>
+        <div class="error-message" id="phone-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <div class="error-message" id="password-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+        <div class="error-message" id="age-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" required>
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div class="error-message" id="gender-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" required>
+        <div class="error-message" id="date-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="color">Color:</label>
+        <input type="color" id="color" required>
+        <div class="error-message" id="color-error"></div>
+      </div>
+
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+      const form = document.querySelector('form');
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const passwordInput = document.getElementById('password');
+      const ageInput = document.getElementById('age');
+      const genderInput = document.getElementById('gender');
+      const dateInput = document.getElementById('date');
+      const colorInput = document.getElementById('color');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!validateName()) return;
+        if (!validateEmail()) return;
+        if (!validatePhone()) return;
+        if (!validatePassword()) return;
+        if (!validateAge()) return;
+        if (!validateGender()) return;
+        if (!validateDate()) return;
+        if (!validateColor()) return;
+        alert('Form submitted successfully!');
+        form.reset();
+      });
+
+      function validateName() {
+        const value = nameInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('name', 'Name is required');
+          return false;
+        } else {
+          displayErrorMessage('name', '');
+          return true;
+        }
+      }
+
+      function validateEmail() {
+        const value = emailInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('email', 'Email is required');
+          return false;
+        } else if (!validateEmailFormat(value)) {
+          displayErrorMessage('email', 'Invalid email format');
+          return false;
+        } else {
+          displayErrorMessage('email', '');
+          return true;
+        }
+      }
+
+      function validateEmailFormat(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      }
+
+      function validatePhone() {
+        const value = phoneInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('phone', 'Phone number is required');
+          return false;
+        } else if (!validatePhoneFormat(value)) {
+          displayErrorMessage('phone', 'Invalid phone number format');
+          return false;
+        } else {
+          displayErrorMessage('phone', '');
+          return true;
+        }
+      }
+
+      function validatePhoneFormat(phone) {
+        const regex = /^\d{10}$/;
+        return regex.test(phone);
+      }
+
+      function validatePassword() {
+        const value = passwordInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('password', 'Password is required');
+          return false;
+        } else {
+          displayErrorMessage('password', '');
+          return true;
+        }
+      }
+
+      function validateAge() {
+        const value = ageInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('age', 'Age is required');
+          return false;
+        } else {
+          displayErrorMessage('age', '');
+          return true;
+        }
+      }
+
+      function validateGender() {
+        const value = genderInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('gender', 'Gender is required');
+          return false;
+        } else {
+          displayErrorMessage('gender', '');
+          return true;
+        }
+      }
+
+      function validateDate() {
+        const value = dateInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('date', 'Date is required');
+          return false;
+        } else {
+          displayErrorMessage('date', '');
+          return true;
+        }
+      }
+
+      function validateColor() {
+        const value = colorInput.value.trim();
+        if (value === '') {
+          displayErrorMessage('color', 'Color is required');
+          return false;
+        } else {
+          displayErrorMessage('color', '');
+          return true;
+        }
+      }
+
+      function displayErrorMessage(id, message) {
+        const errorElement = document.getElementById(`${id}-error`);
+        errorElement.textContent = message;
+      }
+    </script>
+  </body>
+</html>
